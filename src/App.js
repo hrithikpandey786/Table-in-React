@@ -84,6 +84,14 @@ export default function App(){
     setEditContactId(null);
   }
 
+  function handleDeleteClick(event, id){
+    event.preventDefault();
+
+    setContacts(prevContacts=>{
+      return prevContacts.filter((contact)=>contact.id!==id);
+    })
+  }
+
   return (
     
     <div className="app-container">
@@ -103,7 +111,7 @@ export default function App(){
               return <Fragment>
                 {(d.id===editContactId)?
                 <EditableRow key={d.id} d={d} handleSaveButton={handleSaveButton} editFormData={editFormData} handleEditFormChange={handleEditFormChange}/>:
-                <ReadOnlyRow key={d.id} d={d} handleEditClick={handleEditClick}/>}
+                <ReadOnlyRow key={d.id} d={d} handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick}/>}
              </Fragment>
             })
           }
