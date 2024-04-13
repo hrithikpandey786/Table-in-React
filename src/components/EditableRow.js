@@ -44,7 +44,10 @@ export default function EditableRow(props){
                     onChange={(event)=>props.handleEditFormChange(event)}
                 ></input>
             </td>
-            <button onClick={(event)=>props.handleSaveButton(event, props.d.id)}>Save</button>
+            <td>
+                <button onClick={(event)=>props.handleSaveButton(event, props.d.id)}>Save</button>
+                <button onClick={(event)=>props.handleCancelClick(event)}>Cancel</button>
+            </td>
         </tr>
            
         

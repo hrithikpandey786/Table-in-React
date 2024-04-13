@@ -34,19 +34,21 @@ export default function App(){
     newFormData[fieldName] = fieldValue;
 
     setAddFormData(newFormData);
-    // console.log(addFormData);
   }
 
   function handleAddFormSubmit(event){
     event.preventDefault();
     
-    const newContactsData = [...contacts, addFormData];
+    const newEnteredData = {...addFormData, id: nanoid()};
+
+    const newContactsData = [...contacts, newEnteredData];
     
     setContacts(newContactsData);
-    // console.log(contacts);
   }
 
-  function handleEditClick(contact){
+  function handleEditClick(event, contact){
+    event.preventDefault();
+
     setEditContactId(contact.id);
 
     const newEditFormData = {...contact};
@@ -63,8 +65,6 @@ export default function App(){
     updatedFormEditData[fieldName] = fieldValue;
 
     setEditFormData(updatedFormEditData);
-
-    // console.log(editFormData);
   }
 
   function handleSaveButton(event, id){
@@ -80,7 +80,7 @@ export default function App(){
       }
     }
     setContacts(arr);
-    // console.log(contacts);
+    
     setEditContactId(null);
   }
 
@@ -90,6 +90,12 @@ export default function App(){
     setContacts(prevContacts=>{
       return prevContacts.filter((contact)=>contact.id!==id);
     })
+  }
+
+  function handleCancelClick(event){
+    event.preventDefault();
+
+    setEditContactId(null);
   }
 
   return (
@@ -110,16 +116,22 @@ export default function App(){
             contacts.map(d=>{
               return <Fragment>
                 {(d.id===editContactId)?
-                <EditableRow key={d.id} d={d} handleSaveButton={handleSaveButton} editFormData={editFormData} handleEditFormChange={handleEditFormChange}/>:
-                <ReadOnlyRow key={d.id} d={d} handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick}/>}
+                <EditableRow 
+                  key={d.id} d={d} 
+                  handleCancelClick={handleCancelClick} 
+                  handleSaveButton={handleSaveButton} 
+                  editFormData={editFormData} 
+                  handleEditFormChange={handleEditFormChange}
+                />:
+                <ReadOnlyRow 
+                  key={d.id} 
+                  d={d} 
+                  handleEditClick={handleEditClick} 
+                  handleDeleteClick={handleDeleteClick}
+                />}
              </Fragment>
             })
           }
-          {/* <Fragment>
-            <EditableRow contacts={contacts}/>
-            <ReadOnlyRow contacts={contacts}/>
-          </Fragment> */}
-            {/* <ReadOnlyRow contacts={contacts}/> */}
           
           </tbody>
         </table>
