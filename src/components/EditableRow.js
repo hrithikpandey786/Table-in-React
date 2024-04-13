@@ -7,40 +7,44 @@ export default function EditableRow(props){
             <td>
                 <input
                     type="text"
-                    name={props.d.fullName}
+                    name="fullName"
                     required="required"
-                    value={props.d.fullName}
+                    value={props.editFormData.fullName}
                     placeholder="Enter a name"
+                    onChange={(event)=>props.handleEditFormChange(event)}
                 ></input>
             </td>
             <td>
                 <input
                     type="text"
-                    name={props.d.address}
+                    name="address"
                     required="required"
-                    value={props.d.address}
+                    value={props.editFormData.address}
                     placeholder="Enter an address"
+                    onChange={(event)=>props.handleEditFormChange(event)}
                 ></input>
             </td>
             <td>
                 <input
                     type="text"
-                    name={props.d.phoneNumber}
+                    name="phoneNumber"
                     required="required"
-                    value={props.d.phoneNumber}
+                    value={props.editFormData.phoneNumber}
                     placeholder="Enter a phone number"
+                    onChange={(event)=>props.handleEditFormChange(event)}
                 ></input>
             </td>
             <td>
                 <input
                     type="email"
-                    name={props.d.email}
+                    name="email"
                     required="required"
-                    value={props.d.email}
+                    value={props.editFormData.email}
                     placeholder="Enter an email"
+                    onChange={(event)=>props.handleEditFormChange(event)}
                 ></input>
             </td>
-            <button>Save</button>
+            <button onClick={(event)=>props.handleSaveButton(event, props.d.id)}>Save</button>
         </tr>
            
         

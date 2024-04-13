@@ -18,6 +18,13 @@ export default function App(){
 
   const [editContactId, setEditContactId] = React.useState(null);
 
+  const [editFormData, setEditFormData] = React.useState({
+    fullName: "",
+    address: "",
+    phoneNumber: "",
+    email: ""
+  })
+
   function handleFormChange(event){
     event.preventDefault();
     const fieldName = event.target.getAttribute("name");
@@ -27,6 +34,7 @@ export default function App(){
     newFormData[fieldName] = fieldValue;
 
     setAddFormData(newFormData);
+    // console.log(addFormData);
   }
 
   function handleAddFormSubmit(event){
@@ -35,16 +43,51 @@ export default function App(){
     const newContactsData = [...contacts, addFormData];
     
     setContacts(newContactsData);
+    // console.log(contacts);
   }
 
-  function handleEditClick(id){
-    setEditContactId(id);
+  function handleEditClick(contact){
+    setEditContactId(contact.id);
+
+    const newEditFormData = {...contact};
+    setEditFormData(newEditFormData);
+  }
+
+  function handleEditFormChange(event){
+    event.preventDefault();
+
+    const fieldName = event.target.getAttribute("name");
+    const fieldValue = event.target.value;
+
+    const updatedFormEditData = {...editFormData};
+    updatedFormEditData[fieldName] = fieldValue;
+
+    setEditFormData(updatedFormEditData);
+
+    // console.log(editFormData);
+  }
+
+  function handleSaveButton(event, id){
+    event.preventDefault();
+    let arr = [];
+    const n = contacts.length;
+
+    for(let i=0; i<n; i++){
+      if(id===contacts[i].id){
+        arr.push(editFormData);
+      } else {
+        arr.push(contacts[i]);
+      }
+    }
+    setContacts(arr);
+    // console.log(contacts);
+    setEditContactId(null);
   }
 
   return (
-    <form>
+    
     <div className="app-container">
-      
+      <form>
         <table>
           <thead>
             <tr>
@@ -54,12 +97,12 @@ export default function App(){
             <th>Email</th>
             <th>Actions</th>
           </tr>
-        </thead>
-        <tbody>{
+          </thead>
+          <tbody>{
             contacts.map(d=>{
               return <Fragment>
                 {(d.id===editContactId)?
-                <EditableRow key={d.id} d={d}/>:
+                <EditableRow key={d.id} d={d} handleSaveButton={handleSaveButton} editFormData={editFormData} handleEditFormChange={handleEditFormChange}/>:
                 <ReadOnlyRow key={d.id} d={d} handleEditClick={handleEditClick}/>}
              </Fragment>
             })
@@ -70,9 +113,9 @@ export default function App(){
           </Fragment> */}
             {/* <ReadOnlyRow contacts={contacts}/> */}
           
-        </tbody>
-      </table>
-
+          </tbody>
+        </table>
+      </form>
       <h2>Add a contact</h2>
 
       <form onSubmit={handleAddFormSubmit}>
@@ -112,6 +155,5 @@ export default function App(){
         <button type="submit">Add</button>
       </form>
     </div>
-    </form>
   )
 }

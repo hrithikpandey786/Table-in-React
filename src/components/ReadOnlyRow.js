@@ -8,7 +8,7 @@ export default function ReadOnlyRow(props){
                 <td>{props.d.address}</td>
                 <td>{props.d.phoneNumber}</td>
                 <td>{props.d.email}</td>
-                <td><button onClick={()=>props.handleEditClick(props.d.id)}>Edit</button></td>
+                <td><button onClick={()=>props.handleEditClick(props.d)}>Edit</button></td>
             </tr>
         
     )
